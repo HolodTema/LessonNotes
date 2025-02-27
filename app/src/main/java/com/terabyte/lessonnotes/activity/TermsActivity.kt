@@ -1,4 +1,4 @@
-package com.terabyte.lessonnotes
+package com.terabyte.lessonnotes.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.terabyte.lessonnotes.ui.theme.LessonNotesTheme
 
-class MainActivity : ComponentActivity() {
+class TermsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
