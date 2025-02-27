@@ -1,16 +1,19 @@
 package com.terabyte.lessonnotes.viewmodel
 
 import android.app.Application
-import androidx.compose.runtime.mutableStateMapOf
+import android.icu.util.Calendar
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
-import com.terabyte.lessonnotes.application.MyApplication
-import com.terabyte.lessonnotes.room.entity.Term
 
 class CreateTermViewModel(application: Application): AndroidViewModel(application) {
     val stateTermNumber = mutableStateOf("")
-    val stateTermDateStart = mutableStateOf("")
-    val stateTermDateEnd = mutableStateOf("")
+
+    val stateStartYear = mutableStateOf(Calendar.getInstance().get(Calendar.YEAR))
+    val stateStartMonthIndex = mutableStateOf(Calendar.getInstance().get(Calendar.MONTH))
+
+    val stateEndYear = mutableStateOf(Calendar.getInstance().get(Calendar.YEAR))
+    val stateEndMonthIndex = mutableStateOf(Calendar.getInstance().get(Calendar.MONTH))
+
     val stateTermDescription = mutableStateOf("")
 
     val stateShowDialogChangeStartDate = mutableStateOf(false)

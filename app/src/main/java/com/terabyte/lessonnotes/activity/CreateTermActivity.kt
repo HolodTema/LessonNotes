@@ -12,27 +12,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -50,9 +44,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModelProvider
 import com.terabyte.lessonnotes.R
+import com.terabyte.lessonnotes.application.MyApplication
+import com.terabyte.lessonnotes.room.entity.Term
+import com.terabyte.lessonnotes.util.DateHelper
 import com.terabyte.lessonnotes.viewmodel.CreateTermViewModel
 
 class CreateTermActivity : ComponentActivity() {
@@ -72,6 +68,9 @@ class CreateTermActivity : ComponentActivity() {
 
     @Composable
     fun Main(viewModel: CreateTermViewModel, paddingVals: PaddingValues) {
+        val regexTermNumber = Regex("[0123456789]*")
+        val maxLenNumber = 5
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -109,7 +108,9 @@ class CreateTermActivity : ComponentActivity() {
                 },
                 singleLine = true,
                 onValueChange = {
-                    viewModel.stateTermNumber.value = it
+                    if (regexTermNumber.matches(it) && it.length <= maxLenNumber) {
+                        viewModel.stateTermNumber.value = it
+                    }
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier
@@ -122,8 +123,9 @@ class CreateTermActivity : ComponentActivity() {
                     .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             ) {
                 Text(
-                    text = "Starts at: ${viewModel.stateTermDateStart.value}",
+                    text = "Starts at: ${DateHelper.monthIndexToMonthString(viewModel.stateStartMonthIndex.value)} ${viewModel.stateStartYear.value}",
                     modifier = Modifier
+                        .width(180.dp)
                         .padding(end = 10.dp)
                 )
                 Button(
@@ -140,8 +142,9 @@ class CreateTermActivity : ComponentActivity() {
                     .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             ) {
                 Text(
-                    text = "Ends at: ${viewModel.stateTermDateEnd.value}",
+                    text = "Ends at: ${DateHelper.monthIndexToMonthString(viewModel.stateEndMonthIndex.value)} ${viewModel.stateEndYear.value}",
                     modifier = Modifier
+                        .width(180.dp)
                         .padding(end = 10.dp)
                 )
                 Button(
@@ -172,9 +175,9 @@ class CreateTermActivity : ComponentActivity() {
                     .padding(top = 10.dp)
             ) {
                 Button(
-                    enabled = (viewModel.stateTermNumber.value.isNotEmpty() && viewModel.stateTermDateStart.value.isNotEmpty() && viewModel.stateTermDateEnd.value.isNotEmpty()),
+                    enabled = (viewModel.stateTermNumber.value.isNotEmpty()),
                     onClick = {
-
+                        createTerm()
                     },
                 ) {
                     Text("Create")
@@ -190,6 +193,8 @@ class CreateTermActivity : ComponentActivity() {
                     viewModel.stateShowDialogChangeStartDate.value = false
                 },
                 applyListener = { year, monthIndex ->
+                    viewModel.stateStartMonthIndex.value = monthIndex
+                    viewModel.stateStartYear.value = year
                     viewModel.stateShowDialogChangeStartDate.value = false
                 }
             )
@@ -203,6 +208,8 @@ class CreateTermActivity : ComponentActivity() {
                     viewModel.stateShowDialogChangeEndDate.value = false
                 },
                 applyListener = { year, monthIndex ->
+                    viewModel.stateEndMonthIndex.value = monthIndex
+                    viewModel.stateEndYear.value = year
                     viewModel.stateShowDialogChangeEndDate.value = false
                 }
             )
@@ -335,6 +342,20 @@ class CreateTermActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun createTerm() {
+        val startMonth = DateHelper.monthIndexToMonthString(viewModel.stateStartMonthIndex.value)
+        val endMonth = DateHelper.monthIndexToMonthString(viewModel.stateEndMonthIndex.value)
+
+        val term = Term(
+            0,
+            viewModel.stateTermNumber.value.toInt(),
+            "${startMonth} ${viewModel.stateStartYear.value} - ${endMonth} ${viewModel.stateEndYear.value}",
+            viewModel.stateTermDescription.value
+        )
+        (application as MyApplication).roomManager.insertTerm(term)
+        startTermsActivity()
     }
 
     private fun startTermsActivity() {
