@@ -108,7 +108,7 @@ class RoomManager(context: Context) {
         }
     }
 
-    fun getTasksBySubjectId(subjectId: Long, listener: (List<Subject>) -> Unit) {
+    fun getTasksBySubjectId(subjectId: Long, listener: (List<Task>) -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             val deferred = async(Dispatchers.IO) {
                 database.taskDao().getTasksBySubjectId(subjectId)
@@ -135,7 +135,7 @@ class RoomManager(context: Context) {
         }
     }
 
-    fun getAllTasks(listener: (List<Truancy>) -> Unit) {
+    fun getAllTruancies(listener: (List<Truancy>) -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             val deferred = async(Dispatchers.IO) {
                 database.truancyDao().getAllTruancies()

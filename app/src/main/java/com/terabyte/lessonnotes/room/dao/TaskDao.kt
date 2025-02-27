@@ -25,6 +25,6 @@ interface TaskDao {
     fun getAllTasks(): List<Task>
 
     @Query("SELECT * FROM tasks WHERE parentSubjectId = :parentSubjectId")
-    fun getTasksBySubjectId(parentSubjectId: Long): List<Subject>
+    fun getTasksBySubjectId(parentSubjectId: Long): List<Task>
 
 }

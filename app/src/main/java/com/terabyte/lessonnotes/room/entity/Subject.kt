@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "subjects")
 data class Subject(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    val parentTermId: Long,
+    val parentTermId: Long = 0,
     val name: String,
     val description: String,
-    val colorType: Int
+    val colorType: Int = 0
 )
