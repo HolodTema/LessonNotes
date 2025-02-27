@@ -1,11 +1,44 @@
 package com.terabyte.lessonnotes.room
 
 import android.content.Context
+import androidx.room.Room
+import com.terabyte.lessonnotes.config.ROOM_DB_NAME
 import com.terabyte.lessonnotes.room.entity.Term
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-object RoomManager {
-    lateinit var 
+class RoomManager(context: Context) {
+
+    private val database: AppDatabase =
+        Room.databaseBuilder(context, AppDatabase::class.java, ROOM_DB_NAME)
+            .build()
+
     fun insertTerm(context: Context, term: Term, listener: () -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            database.termDao().insertTerm(term)
+        }
+    }
 
+    fun updateTerm(context: Context, term: Term, listener: () -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            database.termDao().updateTerm(term)
+        }
+    }
+
+    fun deleteTerm(context: Context, term: Term) {
+        CoroutineScope(Dispatchers.IO).launch {
+            database.termDao().deleteTerm(term)
+        }
+    }
+
+    fun getAllTerms(context: Context, listener: (List<Term>) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val deferred = async(Dispatchers.IO) {
+                database.termDao().getAllTerms()
+            }
+            listener(deferred.await())
+        }
     }
 }
