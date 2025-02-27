@@ -15,25 +15,25 @@ class RoomManager(context: Context) {
         Room.databaseBuilder(context, AppDatabase::class.java, ROOM_DB_NAME)
             .build()
 
-    fun insertTerm(context: Context, term: Term, listener: () -> Unit) {
+    fun insertTerm(term: Term, listener: () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             database.termDao().insertTerm(term)
         }
     }
 
-    fun updateTerm(context: Context, term: Term, listener: () -> Unit) {
+    fun updateTerm(term: Term, listener: () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             database.termDao().updateTerm(term)
         }
     }
 
-    fun deleteTerm(context: Context, term: Term) {
+    fun deleteTerm(term: Term) {
         CoroutineScope(Dispatchers.IO).launch {
             database.termDao().deleteTerm(term)
         }
     }
 
-    fun getAllTerms(context: Context, listener: (List<Term>) -> Unit) {
+    fun getAllTerms(listener: (List<Term>) -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             val deferred = async(Dispatchers.IO) {
                 database.termDao().getAllTerms()

@@ -12,15 +12,15 @@ import com.terabyte.lessonnotes.room.entity.Term
 interface TermDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTerm(term: Term)
+    fun insertTerm(term: Term)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun updateTerm(term: Term)
+    fun updateTerm(term: Term)
 
     @Delete
-    suspend fun deleteTerm(term: Term)
+    fun deleteTerm(term: Term)
 
     @Query("SELECT * FROM terms")
-    suspend fun getAllTerms(): List<Term>
+    fun getAllTerms(): List<Term>
 
 }

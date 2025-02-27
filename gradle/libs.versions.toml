@@ -10,8 +10,10 @@ activityCompose = "1.10.0"
 composeBom = "2024.04.01"
 ksp = "2.0.0-1.0.23"
 room = "2.6.1"
+viewModel = "2.8.7"
 
 [libraries]
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewModel" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

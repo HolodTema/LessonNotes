@@ -41,6 +41,9 @@ android {
 }
 
 dependencies {
+    //viewModel for Compose
+    implementation(libs.androidx.lifecycle.viewmodel)
+
     //room
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
