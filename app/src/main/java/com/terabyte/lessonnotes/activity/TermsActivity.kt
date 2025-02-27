@@ -40,7 +40,7 @@ class TermsActivity : ComponentActivity() {
         setContent {
             Scaffold(
                 floatingActionButton = {
-
+                    ButtonCreateTerm(viewModel)
                 },
                 modifier = Modifier
                     .fillMaxSize()
@@ -84,7 +84,7 @@ class TermsActivity : ComponentActivity() {
 
         }) {
             Icon(
-                painterResource(R.drawable.ic_settings),
+                painterResource(R.drawable.ic_add),
                 ""
             )
         }
