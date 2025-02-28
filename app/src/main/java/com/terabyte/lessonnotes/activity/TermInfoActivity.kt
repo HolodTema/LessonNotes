@@ -312,7 +312,9 @@ class TermInfoActivity : ComponentActivity() {
     }
 
     private fun startCreateSubjectActivity() {
-        startActivity(Intent(this, CreateSubjectActivity::class.java))
+        val intent = Intent(this, CreateSubjectActivity::class.java)
+        intent.putExtra(INTENT_KEY_TERM, viewModel.term)
+        startActivity(intent)
     }
 }
 
