@@ -47,7 +47,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.ViewModelProvider
 import com.terabyte.lessonnotes.R
+import com.terabyte.lessonnotes.application.MyApplication
 import com.terabyte.lessonnotes.config.INTENT_KEY_TERM
+import com.terabyte.lessonnotes.room.entity.Subject
 import com.terabyte.lessonnotes.room.entity.Term
 import com.terabyte.lessonnotes.util.ColorHelper
 import com.terabyte.lessonnotes.viewmodel.CreateSubjectViewModel
@@ -152,6 +154,21 @@ class CreateSubjectActivity : ComponentActivity() {
                     Text("Change oclor")
                 }
             }
+            Box(
+                contentAlignment = Alignment.CenterEnd,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp)
+            ) {
+                Button(
+                    onClick = {
+                        createSubject()
+                    },
+                    enabled = viewModel.stateSubjectName.value.isNotEmpty()
+                ) {
+                    Text("Create")
+                }
+            }
         }
     }
 
@@ -225,8 +242,8 @@ class CreateSubjectActivity : ComponentActivity() {
                     Box(
                         contentAlignment = Alignment.CenterEnd,
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(top = 10.dp)
+                            .fillMaxWidth()
                     ) {
                         Button(
                             onClick = {
@@ -241,7 +258,16 @@ class CreateSubjectActivity : ComponentActivity() {
             }
         }
     }
-
+    private fun createSubject() {
+        val subject = Subject(
+            0,
+            viewModel.term.id,
+            viewModel.stateSubjectName.value,
+            viewModel.stateColorIndex.value
+        )
+        (application as MyApplication).roomManager.insertSubject(subject)
+        backToTermInfoActivity()
+    }
     private fun backToTermInfoActivity() {
         val intent = Intent(this, TermInfoActivity::class.java)
         intent.putExtra(INTENT_KEY_TERM, viewModel.term)

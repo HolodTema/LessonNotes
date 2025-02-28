@@ -26,6 +26,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,10 +42,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.terabyte.lessonnotes.R
 import com.terabyte.lessonnotes.application.MyApplication
+import com.terabyte.lessonnotes.config.INTENT_KEY_SUBJECT
 import com.terabyte.lessonnotes.config.INTENT_KEY_TERM
 import com.terabyte.lessonnotes.room.entity.Subject
 import com.terabyte.lessonnotes.room.entity.Task
 import com.terabyte.lessonnotes.room.entity.Term
+import com.terabyte.lessonnotes.util.ColorHelper
 import com.terabyte.lessonnotes.viewmodel.TermInfoViewModel
 
 class TermInfoActivity : ComponentActivity() {
@@ -170,7 +173,7 @@ class TermInfoActivity : ComponentActivity() {
                         .padding(10.dp)
                 ) {
                     Row(
-
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = "Subjects",
@@ -194,8 +197,17 @@ class TermInfoActivity : ComponentActivity() {
                     }
 
                     LazyColumn {
-                        itemsIndexed(viewModel.stateSubjects.value) { _, subject ->
+                        itemsIndexed(viewModel.stateSubjects.value) { i, subject ->
                             SubjectListItem(subject)
+                            if (i != viewModel.stateSubjects.value.size-1) {
+                                HorizontalDivider(
+                                    thickness = 1.dp,
+                                    color = Color.Gray,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(10.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -258,13 +270,17 @@ class TermInfoActivity : ComponentActivity() {
     @Composable
     fun SubjectListItem(subject: Subject) {
         Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(10.dp)
+                .fillMaxWidth()
+                .clickable {
+                    startSubjectInfoActivity(subject)
+                }
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_subject_marker),
                 contentDescription = "",
-                tint = Color.Green,
+                tint = ColorHelper.getColorByIndex(subject.colorType),
                 modifier = Modifier
                     .width(35.dp)
                     .height(35.dp)
@@ -314,6 +330,13 @@ class TermInfoActivity : ComponentActivity() {
     private fun startCreateSubjectActivity() {
         val intent = Intent(this, CreateSubjectActivity::class.java)
         intent.putExtra(INTENT_KEY_TERM, viewModel.term)
+        startActivity(intent)
+    }
+
+    private fun startSubjectInfoActivity(subject: Subject) {
+        val intent = Intent(this, SubjectInfoActivity::class.java)
+        intent.putExtra(INTENT_KEY_TERM, viewModel.term)
+        intent.putExtra(INTENT_KEY_SUBJECT, subject)
         startActivity(intent)
     }
 }
