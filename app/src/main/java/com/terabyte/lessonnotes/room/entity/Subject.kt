@@ -8,6 +8,5 @@ data class Subject(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val parentTermId: Long = 0,
     val name: String,
-    val description: String,
     val colorType: Int = 0
 )

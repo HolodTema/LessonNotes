@@ -117,6 +117,15 @@ class RoomManager(context: Context) {
         }
     }
 
+    fun getTasksByTermId(termId: Long, listener: (List<Task>) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val deferred = async(Dispatchers.IO) {
+                database.taskDao().getTasksByTermId(termId)
+            }
+            listener(deferred.await())
+        }
+    }
+
     fun insertTruancy(truancy: Truancy) {
         CoroutineScope(Dispatchers.IO).launch {
             database.truancyDao().insertTruancy(truancy)

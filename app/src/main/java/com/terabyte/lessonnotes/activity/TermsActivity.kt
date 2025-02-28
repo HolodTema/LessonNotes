@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.terabyte.lessonnotes.R
+import com.terabyte.lessonnotes.config.INTENT_KEY_TERM
 import com.terabyte.lessonnotes.room.entity.Term
 import com.terabyte.lessonnotes.ui.theme.LessonNotesTheme
 import com.terabyte.lessonnotes.viewmodel.TermsViewModel
@@ -75,7 +76,9 @@ class TermsActivity : ComponentActivity() {
                     .padding(10.dp, 5.dp)
             ) {
                 Text(
-                    "Amount of terms: ${viewModel.termsList.value.size}"
+                    "Amount of terms: ${viewModel.termsList.value.size}",
+                    fontSize = 18.sp,
+                    color = Color.Black
                 )
                 Icon(
                     painterResource(R.drawable.ic_settings),
@@ -109,9 +112,12 @@ class TermsActivity : ComponentActivity() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color.Gray)
+                .padding(10.dp)
+                .clickable {
+                    startTermInfoActivity(term)
+                }
         ) {
             Text(
                 "Term ${term.number}",
@@ -146,6 +152,12 @@ class TermsActivity : ComponentActivity() {
                 ""
             )
         }
+    }
+
+    private fun startTermInfoActivity(term: Term) {
+        val intent = Intent(this, TermInfoActivity::class.java)
+        intent.putExtra(INTENT_KEY_TERM, term)
+        startActivity(intent)
     }
 }
 
