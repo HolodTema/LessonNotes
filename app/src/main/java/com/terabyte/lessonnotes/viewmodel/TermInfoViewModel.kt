@@ -14,6 +14,7 @@ class TermInfoViewModel(private val application: Application): AndroidViewModel(
 
     val stateSubjects = mutableStateOf(listOf<Subject>())
     val stateUrgentTasks = mutableStateOf(listOf<Task>())
+    val stateDeleteConfirmDialog = mutableStateOf(false)
 
     //init fun when term is set
     fun onTermSet() {

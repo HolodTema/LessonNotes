@@ -22,6 +22,9 @@ interface TruancyDao {
     @Delete
     fun deleteTruancy(truancy: Truancy)
 
+    @Delete
+    fun deleteTruancyList(truancies: List<Truancy>)
+
     @Query("SELECT * FROM truancies")
     fun getAllTruancies(): List<Truancy>
 

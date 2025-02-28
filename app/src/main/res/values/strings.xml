@@ -3,4 +3,5 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_create_term">CreateTermActivity</string>
     <string name="title_activity_term_info">TermInfoActivity</string>
+    <string name="title_activity_create_subject">CreateSubjectActivity</string>
 </resources>

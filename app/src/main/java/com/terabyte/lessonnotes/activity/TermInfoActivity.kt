@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -68,6 +69,9 @@ class TermInfoActivity : ComponentActivity() {
         setContent {
             Scaffold { paddingVals ->
                 Main(viewModel, paddingVals)
+                if (viewModel.stateDeleteConfirmDialog.value) {
+                    DialogConfirmDelete()
+                }
             }
         }
     }
@@ -108,7 +112,7 @@ class TermInfoActivity : ComponentActivity() {
                         .width(35.dp)
                         .height(35.dp)
                         .clickable {
-                            deleteTerm()
+                            viewModel.stateDeleteConfirmDialog.value = true
                         }
                 )
             }
@@ -165,14 +169,30 @@ class TermInfoActivity : ComponentActivity() {
                         .height(350.dp)
                         .padding(10.dp)
                 ) {
-                    Text(
-                        text = "Subjects",
-                        textAlign = TextAlign.Center,
-                        fontSize = 18.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 10.dp)
-                    )
+                    Row(
+
+                    ) {
+                        Text(
+                            text = "Subjects",
+                            textAlign = TextAlign.Center,
+                            fontSize = 18.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp, end = 10.dp)
+                                .weight(1f)
+                        )
+                        Icon(
+                            painter = painterResource(R.drawable.ic_add),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .width(35.dp)
+                                .height(35.dp)
+                                .clickable {
+                                    startCreateSubjectActivity()
+                                }
+                        )
+                    }
+
                     LazyColumn {
                         itemsIndexed(viewModel.stateSubjects.value) { _, subject ->
                             SubjectListItem(subject)
@@ -258,13 +278,41 @@ class TermInfoActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun DialogConfirmDelete() {
+        AlertDialog(
+            onDismissRequest = {
+                viewModel.stateDeleteConfirmDialog.value = false
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        deleteTerm()
+                    }
+                ) {
+                    Text("Delete term")
+                }
+            },
+            title = {
+                Text("Are you sure you want to delete the term?")
+            },
+            text = {
+                Text("If you delete the term, you will also delete subjects, tasks and truancies list of this term.")
+            }
+        )
+    }
+
     private fun backToTermsActivity() {
         startActivity(Intent(this, TermsActivity::class.java))
     }
 
     private fun deleteTerm() {
-        (application as MyApplication).roomManager.deleteTerm(viewModel.term)
+        (application as MyApplication).roomManager.deleteTermWithChildren(viewModel.term)
         backToTermsActivity()
+    }
+
+    private fun startCreateSubjectActivity() {
+        startActivity(Intent(this, CreateSubjectActivity::class.java))
     }
 }
 

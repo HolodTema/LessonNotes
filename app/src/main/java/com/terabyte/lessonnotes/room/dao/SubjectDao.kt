@@ -20,6 +20,9 @@ interface SubjectDao {
     @Delete
     fun deleteSubject(subject: Subject)
 
+    @Delete
+    fun deleteSubjectList(subjects: List<Subject>)
+
     @Query("SELECT * FROM subjects")
     fun getAllSubjects(): List<Subject>
 
