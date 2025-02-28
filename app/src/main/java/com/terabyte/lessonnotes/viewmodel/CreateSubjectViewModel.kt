@@ -8,8 +8,9 @@ import com.terabyte.lessonnotes.room.entity.Term
 
 class CreateSubjectViewModel(application: Application): AndroidViewModel(application) {
     lateinit var term: Term
-    init {
 
-    }
+    val stateShowDialogColor = mutableStateOf(false)
+    val stateSubjectName = mutableStateOf("")
+    val stateColorIndex = mutableStateOf(0)
 
 }
