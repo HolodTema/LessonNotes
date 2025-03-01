@@ -75,6 +75,15 @@ class RoomManager(context: Context) {
         }
     }
 
+    fun deleteSubjectWithChildren(subject: Subject) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val tasks = database.taskDao().getTasksBySubjectId(subject.id)
+
+            database.taskDao().deleteTaskList(tasks)
+            database.subjectDao().deleteSubject(subject)
+        }
+    }
+
     fun getAllSubjects(listener: (List<Subject>) -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             val deferred = async(Dispatchers.IO) {

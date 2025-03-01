@@ -5,4 +5,5 @@
     <string name="title_activity_term_info">TermInfoActivity</string>
     <string name="title_activity_create_subject">CreateSubjectActivity</string>
     <string name="title_activity_subject_info">SubjectInfoActivity</string>
+    <string name="title_activity_create_task">CreateTaskActivity</string>
 </resources>
