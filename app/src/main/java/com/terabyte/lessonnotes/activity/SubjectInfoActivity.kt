@@ -14,11 +14,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -149,7 +151,7 @@ class SubjectInfoActivity : ComponentActivity() {
                 }
             }
             Box(
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.TopCenter,
                 modifier = Modifier
                     .fillMaxSize()
                     .pointerInput(Unit) {
@@ -165,7 +167,11 @@ class SubjectInfoActivity : ComponentActivity() {
                         }
                     }
             ) {
-                LazyColumn() {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
                     if (viewModel.stateTabIndex.value == 0) {
                         itemsIndexed(viewModel.stateIncompleteTasks.value) { i, task ->
                             TaskListItem(task)
@@ -244,26 +250,32 @@ class SubjectInfoActivity : ComponentActivity() {
                     color = Color.Black
                 )
             }
-            Icon(
-                painter = if(task.completed) {
-                    painterResource(R.drawable.ic_complete)
-                }
-                else {
-                    painterResource(R.drawable.ic_incomplete)
-                },
-                contentDescription = "",
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .width(40.dp)
-                    .height(40.dp)
-                    .padding(start = 10.dp)
-                    .clickable {
-                        if (task.completed) {
-                            makeTaskIncomplete(task)
-                        } else {
-                            makeTaskComplete(task)
-                        }
+                    .fillMaxHeight()
+            ) {
+                Icon(
+                    painter = if(task.completed) {
+                        painterResource(R.drawable.ic_complete)
                     }
-            )
+                    else {
+                        painterResource(R.drawable.ic_incomplete)
+                    },
+                    contentDescription = "",
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                        .padding(start = 10.dp)
+                        .clickable {
+                            if (task.completed) {
+                                makeTaskIncomplete(task)
+                            } else {
+                                makeTaskComplete(task)
+                            }
+                        }
+                )
+            }
         }
     }
 
@@ -318,11 +330,11 @@ class SubjectInfoActivity : ComponentActivity() {
     }
 
     private fun makeTaskIncomplete(task: Task) {
-        // TODO: make task incomplete
+        viewModel.makeTaskIncomplete(task)
     }
 
     private fun makeTaskComplete(task: Task) {
-        // TODO: make task complete
+        viewModel.makeTaskComplete(task)
     }
 
     private fun startCreateTaskActivity() {

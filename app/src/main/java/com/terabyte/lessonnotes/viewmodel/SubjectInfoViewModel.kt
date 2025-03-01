@@ -21,7 +21,7 @@ class SubjectInfoViewModel(private val application: Application): AndroidViewMod
     fun onExtrasGot() {
         (application as MyApplication).roomManager.getTasksBySubjectId(subject.id) {
             val comparator = Comparator { task1: Task, task2: Task ->
-                task1.importance - task2.importance
+                task2.importance - task1.importance
             }
 
             stateTasks.value = it
@@ -32,6 +32,56 @@ class SubjectInfoViewModel(private val application: Application): AndroidViewMod
                 task.completed
             }.sortedWith(comparator)
         }
+    }
+
+    fun makeTaskIncomplete(task: Task) {
+        val updatedTask = task.copy(completed = false)
+
+        val comparator = Comparator { task1: Task, task2: Task ->
+            task2.importance - task1.importance
+        }
+
+        stateTasks.value = stateTasks.value.map { t ->
+            if (t.id == updatedTask.id) {
+                updatedTask
+            }
+            else {
+                t
+            }
+        }
+        stateIncompleteTasks.value = stateTasks.value.filter { t ->
+            !t.completed
+        }.sortedWith(comparator)
+        stateCompleteTasks.value = stateTasks.value.filter { t ->
+            t.completed
+        }.sortedWith(comparator)
+
+        (application as MyApplication).roomManager.updateTask(updatedTask)
+    }
+
+    fun makeTaskComplete(task: Task) {
+        val updatedTask = task.copy(completed = true)
+
+        val comparator = Comparator { task1: Task, task2: Task ->
+            task2.importance - task1.importance
+        }
+
+        stateTasks.value = stateTasks.value.map { t ->
+            if (t.id == updatedTask.id) {
+                updatedTask
+            }
+            else {
+                t
+            }
+        }
+        stateIncompleteTasks.value = stateTasks.value.filter { t ->
+            !t.completed
+        }.sortedWith(comparator)
+        stateCompleteTasks.value = stateTasks.value.filter { t ->
+            t.completed
+        }.sortedWith(comparator)
+
+        (application as MyApplication).roomManager.updateTask(updatedTask)
     }
 
 }
