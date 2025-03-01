@@ -1,6 +1,7 @@
 package com.terabyte.lessonnotes.util
 
 import android.icu.util.Calendar
+import java.util.Locale
 
 object DateHelper {
 
@@ -26,6 +27,18 @@ object DateHelper {
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val month = Calendar.getInstance().get(Calendar.MONTH) + 1
         val year = Calendar.getInstance().get(Calendar.YEAR)
-        return "$day.$month.$year"
+
+        return String.format(Locale.US, "%02d.%02d.%d", day, month, year)
+    }
+
+    fun getDateFromMillis(millis: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = millis
+
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val year = calendar.get(Calendar.YEAR)
+
+        return String.format(Locale.US, "%02d.%02d.%d", day, month, year)
     }
 }

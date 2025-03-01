@@ -16,6 +16,6 @@ class CreateTaskViewModel(application: Application): AndroidViewModel(applicatio
     val stateTaskDescription = mutableStateOf("")
     val stateTaskDate = mutableStateOf(DateHelper.getCurrentDate())
     val stateTaskImportance = mutableStateOf(1)
-
+    val stateShowDateDialog = mutableStateOf(false)
 
 }
