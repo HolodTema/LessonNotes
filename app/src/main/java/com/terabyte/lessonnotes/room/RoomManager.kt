@@ -206,4 +206,19 @@ class RoomManager(context: Context) {
             listener(deferred.await())
         }
     }
+
+    fun getSubjectsForTruancies(truancies: List<Truancy>, listener: (List<Pair<Truancy, Subject>>) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val deferred = async(Dispatchers.IO) {
+                val result = arrayListOf<Pair<Truancy, Subject>>()
+
+                truancies.forEach { truancy ->
+                    val subject = database.subjectDao().getSubjectById(truancy.subjectId)[0]
+                    result.add(truancy to subject)
+                }
+                result
+            }
+            listener(deferred.await())
+        }
+    }
 }

@@ -32,8 +32,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.terabyte.lessonnotes.R
 import com.terabyte.lessonnotes.config.INTENT_KEY_TERM
+import com.terabyte.lessonnotes.room.entity.Subject
 import com.terabyte.lessonnotes.room.entity.Term
 import com.terabyte.lessonnotes.room.entity.Truancy
+import com.terabyte.lessonnotes.util.ColorHelper
 import com.terabyte.lessonnotes.viewmodel.TruanciesViewModel
 
 class TruanciesActivity : ComponentActivity() {
@@ -89,7 +91,7 @@ class TruanciesActivity : ComponentActivity() {
                         }
                 )
                 Text(
-                    "${viewModel.stateTruancies.value.size} truancies",
+                    "${viewModel.stateTruanciesPairs.value.size} truancies",
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center,
                     color = Color.Black,
@@ -103,7 +105,8 @@ class TruanciesActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             ) {
-                items(viewModel.stateTruancies.value) { truancy ->
+                items(viewModel.stateTruanciesPairs.value) { pair ->
+                    TruancyListItem(pair.first, pair.second)
                     HorizontalDivider(
                         thickness = 1.dp,
                         color = Color.Gray
@@ -128,8 +131,52 @@ class TruanciesActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TruancyListItem(truancy: Truancy) {
-
+    fun TruancyListItem(truancy: Truancy, subject: Subject) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom  = 10.dp)
+            ) {
+                Icon(
+                    painterResource(R.drawable.ic_subject_marker),
+                    contentDescription = "",
+                    tint = ColorHelper.getColorByIndex(subject.colorType),
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                )
+                Text(
+                    subject.name,
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+            }
+            Text(
+                truancy.date,
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text("Reason: ")
+                Text(
+                    truancy.reason,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+            }
+        }
     }
 
     private fun startCreateTruancyActivity() {
