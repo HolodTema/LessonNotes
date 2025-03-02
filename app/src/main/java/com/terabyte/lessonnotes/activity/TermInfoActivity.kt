@@ -229,7 +229,7 @@ class TermInfoActivity : ComponentActivity() {
             ) {
                 Button(
                     onClick = {
-
+                        startTruanciesActivity()
                     },
                     modifier = Modifier
 
@@ -388,6 +388,12 @@ class TermInfoActivity : ComponentActivity() {
         val intent = Intent(this, SubjectInfoActivity::class.java)
         intent.putExtra(INTENT_KEY_TERM, viewModel.term)
         intent.putExtra(INTENT_KEY_SUBJECT, subject)
+        startActivity(intent)
+    }
+
+    private fun startTruanciesActivity() {
+        val intent = Intent(this, TruanciesActivity::class.java)
+        intent.putExtra(INTENT_KEY_TERM, viewModel.term)
         startActivity(intent)
     }
 }

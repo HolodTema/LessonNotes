@@ -6,4 +6,6 @@
     <string name="title_activity_create_subject">CreateSubjectActivity</string>
     <string name="title_activity_subject_info">SubjectInfoActivity</string>
     <string name="title_activity_create_task">CreateTaskActivity</string>
+    <string name="title_activity_truancies">TruanciesActivity</string>
+    <string name="title_activity_create_truancy">CreateTruancyActivity</string>
 </resources>
