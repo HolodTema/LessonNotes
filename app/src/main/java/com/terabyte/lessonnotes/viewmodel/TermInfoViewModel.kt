@@ -1,6 +1,7 @@
 package com.terabyte.lessonnotes.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import com.terabyte.lessonnotes.application.MyApplication
@@ -13,7 +14,7 @@ class TermInfoViewModel(private val application: Application): AndroidViewModel(
     lateinit var term: Term
 
     val stateSubjects = mutableStateOf(listOf<Subject>())
-    val stateUrgentTasks = mutableStateOf(listOf<Task>())
+    val stateUrgentTasks = mutableStateOf(listOf<Pair<Task, Subject>>())
     val stateDeleteConfirmDialog = mutableStateOf(false)
 
     //init fun when term is set
@@ -21,11 +22,17 @@ class TermInfoViewModel(private val application: Application): AndroidViewModel(
         (application as MyApplication).roomManager.getSubjectsByTermId(term.id) { subjects ->
             stateSubjects.value = subjects
         }
-        (application as MyApplication).roomManager.getTasksByTermId(term.id) { tasks ->
-            val comparator = Comparator { task1: Task, task2: Task -> task2.importance - task1.importance }
-            stateUrgentTasks.value = tasks.sortedWith(comparator).subList(0, min(5, tasks.size))
-        }
 
+
+        application.roomManager.getTasksByTermId(term.id) { tasks ->
+            val comparator = Comparator { task1: Task, task2: Task -> task2.importance - task1.importance }
+
+            val urgentTasks = tasks.sortedWith(comparator).subList(0, min(5, tasks.size))
+
+            application.roomManager.getSubjectsForTasks(urgentTasks) { urgentTasksPairs ->
+                stateUrgentTasks.value = urgentTasksPairs
+            }
+        }
     }
 
 }

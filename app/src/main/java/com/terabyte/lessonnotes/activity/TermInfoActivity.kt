@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -81,9 +85,12 @@ class TermInfoActivity : ComponentActivity() {
 
     @Composable
     fun Main(viewModel: TermInfoViewModel, paddingVals: PaddingValues) {
+        val scrollState = rememberScrollState()
+
         Column(
             modifier = Modifier
                 .padding(paddingVals)
+                .verticalScroll(scrollState)
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -143,7 +150,6 @@ class TermInfoActivity : ComponentActivity() {
             ) {
                 Column(
                     modifier = Modifier
-                        .height(250.dp)
                         .padding(10.dp)
                 ) {
                     Text(
@@ -154,9 +160,13 @@ class TermInfoActivity : ComponentActivity() {
                             .fillMaxWidth()
                             .padding(bottom = 10.dp)
                     )
-                    LazyColumn {
-                        itemsIndexed(viewModel.stateUrgentTasks.value) { i, task ->
-                            UrgentTaskListItem(i, task)
+                    Column {
+                        viewModel.stateUrgentTasks.value.forEachIndexed { i, pair ->
+                            UrgentTaskListItem(i, pair.first, pair.second)
+                            HorizontalDivider(
+                                thickness = 1.dp,
+                                color = Color.Gray
+                            )
                         }
                     }
                 }
@@ -232,19 +242,45 @@ class TermInfoActivity : ComponentActivity() {
     }
 
     @Composable
-    fun UrgentTaskListItem(index: Int, task: Task) {
+    fun UrgentTaskListItem(index: Int, task: Task, subject: Subject) {
+        val painter = when(task.importance) {
+            1 -> {
+                R.drawable.importance1
+            }
+            2 -> {
+                R.drawable.importance2
+            }
+            3 -> {
+                R.drawable.importance3
+            }
+            4 -> {
+                R.drawable.importance4
+            }
+            5 -> {
+                R.drawable.importance5
+            }
+            else -> {
+                R.drawable.importance1
+            }
+        }
+
         Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
             Text(
-                text = index.toString(),
+                text = (index+1).toString(),
                 fontSize = 18.sp,
-                color = Color.Black
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(end = 10.dp)
             )
             Column(
-
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 10.dp)
             ) {
                 Text(
                     text = task.name,
@@ -256,9 +292,24 @@ class TermInfoActivity : ComponentActivity() {
                     fontSize = 16.sp,
                     color = Color.Black
                 )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                ) {
+                    Icon(
+                        painterResource(R.drawable.ic_subject_marker),
+                        contentDescription = "",
+                        tint = ColorHelper.getColorByIndex(subject.colorType)
+                    )
+                    Text(
+                        subject.name,
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                    )
+                }
             }
             Image(
-                painter = painterResource(R.drawable.importance5),
+                painter = painterResource(painter),
                 contentDescription = "",
                 modifier = Modifier
                     .width(60.dp)

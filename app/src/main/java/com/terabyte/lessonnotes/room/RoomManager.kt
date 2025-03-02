@@ -84,6 +84,15 @@ class RoomManager(context: Context) {
         }
     }
 
+    fun getSubjectById(id: Long, listener: (Subject) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val deferred = async(Dispatchers.IO) {
+                database.subjectDao().getSubjectById(id)
+            }
+            listener(deferred.await()[0])
+        }
+    }
+
     fun getAllSubjects(listener: (List<Subject>) -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             val deferred = async(Dispatchers.IO) {
@@ -178,6 +187,21 @@ class RoomManager(context: Context) {
         CoroutineScope(Dispatchers.Main).launch {
             val deferred = async(Dispatchers.IO) {
                 database.truancyDao().getTruanciesByTermId(termId)
+            }
+            listener(deferred.await())
+        }
+    }
+
+    fun getSubjectsForTasks(tasks: List<Task>, listener: (List<Pair<Task, Subject>>) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val deferred = async(Dispatchers.IO) {
+                val result = arrayListOf<Pair<Task, Subject>>()
+
+                tasks.forEach { task ->
+                    val subject = database.subjectDao().getSubjectById(task.parentSubjectId)[0]
+                    result.add(task to subject)
+                }
+                result
             }
             listener(deferred.await())
         }
