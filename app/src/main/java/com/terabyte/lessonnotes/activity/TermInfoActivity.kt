@@ -231,8 +231,7 @@ class TermInfoActivity : ComponentActivity() {
                     onClick = {
                         startTruanciesActivity()
                     },
-                    modifier = Modifier
-
+                    enabled = viewModel.stateSubjects.value.isNotEmpty()
                 ) {
                     Text("View truancies")
                 }
