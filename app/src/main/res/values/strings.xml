@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LessonNotes</string>
+    <string name="app_name">Lesson Notes</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_create_term">CreateTermActivity</string>
     <string name="title_activity_term_info">TermInfoActivity</string>
