@@ -3,6 +3,7 @@ package com.terabyte.lessonnotes.viewmodel
 import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
+import com.terabyte.lessonnotes.R
 import com.terabyte.lessonnotes.application.MyApplication
 import com.terabyte.lessonnotes.room.entity.Subject
 import com.terabyte.lessonnotes.room.entity.Term
@@ -20,6 +21,13 @@ class CreateTruancyViewModel(private val application: Application): AndroidViewM
 
     val stateShowDialogChangeSubject = mutableStateOf(false)
     val stateShowDateDialog = mutableStateOf(false)
+
+    val textCreateTruancy = application.resources.getString(R.string.create_truancy_create_new_truancy)
+    val textCreate = application.resources.getString(R.string.create_truancy_create)
+    val textChangeSubject = application.resources.getString(R.string.create_truancy_change_subject)
+    val textChangeDate = application.resources.getString(R.string.create_truancy_change_date)
+    val textDone = application.resources.getString(R.string.create_truancy_done)
+    val textReason = application.resources.getString(R.string.create_truancy_reason)
 
     fun onTermGot() {
         (application as MyApplication).roomManager.getSubjectsByTermId(term.id) {

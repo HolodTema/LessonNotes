@@ -115,7 +115,7 @@ class CreateTaskActivity : ComponentActivity() {
                         }
                 )
                 Text(
-                    "Create new task",
+                    viewModel.textCreateNewTask,
                     fontSize = 18.sp,
                     color = Color.Black,
                     textAlign = TextAlign.Center,
@@ -130,7 +130,7 @@ class CreateTaskActivity : ComponentActivity() {
                     viewModel.stateTaskName.value = it
                 },
                 placeholder = {
-                    Text("Task name")
+                    Text(viewModel.textTaskName)
                 },
                 singleLine = true,
                 modifier = Modifier
@@ -144,7 +144,7 @@ class CreateTaskActivity : ComponentActivity() {
                     viewModel.stateTaskDescription.value = it
                 },
                 placeholder = {
-                    Text("Task description")
+                    Text(viewModel.textTaskDescription)
                 },
                 singleLine = true,
                 modifier = Modifier
@@ -169,11 +169,11 @@ class CreateTaskActivity : ComponentActivity() {
                         viewModel.stateShowDateDialog.value = true
                     }
                 ) {
-                    Text("Change date")
+                    Text(viewModel.textChangeDate)
                 }
             }
             Text(
-                "Choose importance:",
+                viewModel.textChooseImportance,
                 fontSize = 18.sp,
                 color = Color.Black,
                 modifier = Modifier
@@ -198,7 +198,7 @@ class CreateTaskActivity : ComponentActivity() {
                     },
                     enabled = viewModel.stateTaskName.value.isNotEmpty()
                 ) {
-                    Text("Create")
+                    Text(viewModel.textCreate)
                 }
             }
         }
@@ -208,11 +208,11 @@ class CreateTaskActivity : ComponentActivity() {
     fun ImportanceCard(importanceLevel: Int) {
         val texts = listOf(
             "",
-            "Not important",
-            "Little important",
-            "Important",
-            "Very important",
-            "As soon as possible"
+            viewModel.textNotImportant,
+            viewModel.textLittleImportant,
+            viewModel.textImportant,
+            viewModel.textVeryImportant,
+            viewModel.textASAP
         )
         val painters = listOf(
             R.drawable.importance1,
@@ -276,7 +276,7 @@ class CreateTaskActivity : ComponentActivity() {
                         viewModel.stateShowDateDialog.value =false
                     }
                 ) {
-                    Text("Done")
+                    Text(viewModel.textDone)
                 }
             }
         ) {

@@ -94,7 +94,7 @@ class CreateTermActivity : ComponentActivity() {
                         }
                 )
                 Text(
-                    "Create new term",
+                    viewModel.textCreateNewTerm,
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp,
                     modifier = Modifier
@@ -104,7 +104,7 @@ class CreateTermActivity : ComponentActivity() {
             TextField(
                 value = viewModel.stateTermNumber.value,
                 label = {
-                    Text("Term number")
+                    Text(viewModel.textTermNumber)
                 },
                 singleLine = true,
                 onValueChange = {
@@ -123,7 +123,7 @@ class CreateTermActivity : ComponentActivity() {
                     .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             ) {
                 Text(
-                    text = "Starts at: ${DateHelper.monthIndexToMonthString(viewModel.stateStartMonthIndex.value)} ${viewModel.stateStartYear.value}",
+                    text = "${viewModel.textStartsAt} ${DateHelper.monthIndexToMonthString(viewModel.stateStartMonthIndex.value)} ${viewModel.stateStartYear.value}",
                     modifier = Modifier
                         .width(180.dp)
                         .padding(end = 10.dp)
@@ -133,7 +133,7 @@ class CreateTermActivity : ComponentActivity() {
                         viewModel.stateShowDialogChangeStartDate.value = true
                     }
                 ) {
-                    Text("Change")
+                    Text(viewModel.textChange)
                 }
             }
             Row(
@@ -142,7 +142,7 @@ class CreateTermActivity : ComponentActivity() {
                     .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             ) {
                 Text(
-                    text = "Ends at: ${DateHelper.monthIndexToMonthString(viewModel.stateEndMonthIndex.value)} ${viewModel.stateEndYear.value}",
+                    text = "${viewModel.textEndsAt} ${DateHelper.monthIndexToMonthString(viewModel.stateEndMonthIndex.value)} ${viewModel.stateEndYear.value}",
                     modifier = Modifier
                         .width(180.dp)
                         .padding(end = 10.dp)
@@ -152,13 +152,13 @@ class CreateTermActivity : ComponentActivity() {
                         viewModel.stateShowDialogChangeEndDate.value = true
                     }
                 ) {
-                    Text("Change")
+                    Text(viewModel.textChange)
                 }
             }
             TextField(
                 value = viewModel.stateTermDescription.value,
                 label = {
-                    Text("Term description")
+                    Text(viewModel.textTermDescription)
                 },
                 onValueChange = {
                     viewModel.stateTermDescription.value = it
@@ -180,15 +180,15 @@ class CreateTermActivity : ComponentActivity() {
                         createTerm()
                     },
                 ) {
-                    Text("Create")
+                    Text(viewModel.textCreate)
                 }
             }
         }
 
         if (viewModel.stateShowDialogChangeStartDate.value) {
             ChangeDateDialog(
-                initYear = 2024,
-                initMonthIndex = 0,
+                initYear = DateHelper.getCurrentYear(),
+                initMonthIndex = DateHelper.getCurrentMonthIndex(),
                 dismissListener = {
                     viewModel.stateShowDialogChangeStartDate.value = false
                 },
@@ -202,8 +202,8 @@ class CreateTermActivity : ComponentActivity() {
 
         if (viewModel.stateShowDialogChangeEndDate.value) {
             ChangeDateDialog(
-                initYear = 2024,
-                initMonthIndex = 0,
+                initYear = DateHelper.getCurrentYear(),
+                initMonthIndex = DateHelper.getCurrentMonthIndex(),
                 dismissListener = {
                     viewModel.stateShowDialogChangeEndDate.value = false
                 },
@@ -220,20 +220,6 @@ class CreateTermActivity : ComponentActivity() {
     fun ChangeDateDialog(initYear: Int, initMonthIndex: Int, dismissListener: () -> Unit, applyListener: (Int, Int) -> Unit) {
         val minYearValue = 2000
         val maxYearValue = 2040
-        val months = listOf(
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        )
 
         val year = remember { mutableStateOf(initYear) }
         val monthIndex = remember { mutableStateOf(initMonthIndex) }
@@ -304,7 +290,7 @@ class CreateTermActivity : ComponentActivity() {
                             .padding(top = 10.dp)
                             .wrapContentHeight()
                     ) {
-                        itemsIndexed(months) { i, month ->
+                        itemsIndexed(viewModel.months) { i, month ->
                             Text(
                                 text = month,
                                 fontSize = 18.sp,
@@ -336,7 +322,7 @@ class CreateTermActivity : ComponentActivity() {
                                 applyListener(year.value, monthIndex.value)
                             },
                         ) {
-                            Text("Done")
+                            Text(viewModel.textDone)
                         }
                     }
                 }

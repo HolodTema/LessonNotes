@@ -41,4 +41,12 @@ object DateHelper {
 
         return String.format(Locale.US, "%02d.%02d.%d", day, month, year)
     }
+
+    fun getCurrentYear(): Int {
+        return Calendar.getInstance().get(Calendar.YEAR)
+    }
+
+    fun getCurrentMonthIndex(): Int {
+        return Calendar.getInstance().get(Calendar.MONTH)
+    }
 }

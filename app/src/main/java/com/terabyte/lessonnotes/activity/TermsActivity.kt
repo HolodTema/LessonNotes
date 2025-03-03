@@ -76,7 +76,7 @@ class TermsActivity : ComponentActivity() {
                     .padding(10.dp, 5.dp)
             ) {
                 Text(
-                    "Amount of terms: ${viewModel.termsList.value.size}",
+                    "${viewModel.textAmountTerms} ${viewModel.termsList.value.size}",
                     fontSize = 18.sp,
                     color = Color.Black
                 )
@@ -120,7 +120,7 @@ class TermsActivity : ComponentActivity() {
                 }
         ) {
             Text(
-                "Term ${term.number}",
+                "${viewModel.textTerm} ${term.number}",
                 fontSize = 20.sp,
                 modifier = Modifier
                     .fillMaxWidth()

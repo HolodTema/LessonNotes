@@ -91,8 +91,8 @@ class SubjectInfoActivity : ComponentActivity() {
     @Composable
     fun Main(viewModel: SubjectInfoViewModel, paddingVals: PaddingValues) {
         val tabHeaders = listOf(
-            "Incomplete",
-            "Complete"
+            viewModel.textIncomplete,
+            viewModel.textComplete
         )
         Column(
             modifier = Modifier
@@ -306,14 +306,14 @@ class SubjectInfoActivity : ComponentActivity() {
                         viewModel.stateShowDeleteDialog.value = false
                     }
                 ) {
-                    Text("Delete")
+                    Text(viewModel.textDelete)
                 }
             },
             title = {
-                Text("Are you sure you want to delete the subject?")
+                Text(viewModel.textDialogDeleteTitle)
             },
             text = {
-                Text("If you delete the subject, you will delete all the tasks of this subject")
+                Text(viewModel.textDialogDeleteDesc)
             }
         )
     }

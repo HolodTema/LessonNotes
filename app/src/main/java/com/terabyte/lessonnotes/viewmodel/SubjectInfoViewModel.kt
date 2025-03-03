@@ -3,6 +3,7 @@ package com.terabyte.lessonnotes.viewmodel
 import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
+import com.terabyte.lessonnotes.R
 import com.terabyte.lessonnotes.application.MyApplication
 import com.terabyte.lessonnotes.room.entity.Subject
 import com.terabyte.lessonnotes.room.entity.Task
@@ -17,6 +18,12 @@ class SubjectInfoViewModel(private val application: Application): AndroidViewMod
     val stateIncompleteTasks = mutableStateOf(listOf<Task>())
     val stateCompleteTasks = mutableStateOf(listOf<Task>())
     val stateShowDeleteDialog = mutableStateOf(false)
+
+    val textDelete = application.resources.getString(R.string.subject_info_delete)
+    val textComplete = application.resources.getString(R.string.subject_info_complete)
+    val textIncomplete = application.resources.getString(R.string.subject_info_incomplete)
+    val textDialogDeleteTitle = application.resources.getString(R.string.subject_info_dialog_delete_title)
+    val textDialogDeleteDesc = application.resources.getString(R.string.subject_info_dialog_delete_desc)
 
     fun onExtrasGot() {
         (application as MyApplication).roomManager.getTasksBySubjectId(subject.id) {

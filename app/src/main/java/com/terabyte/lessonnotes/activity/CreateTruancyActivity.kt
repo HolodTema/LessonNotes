@@ -115,7 +115,7 @@ class CreateTruancyActivity : ComponentActivity() {
                         }
                 )
                 Text(
-                    "Create new truancy",
+                    viewModel.textCreateTruancy,
                     textAlign = TextAlign.Center,
                     fontSize = 18.sp,
                     color = Color.Black,
@@ -151,7 +151,7 @@ class CreateTruancyActivity : ComponentActivity() {
                             viewModel.stateShowDialogChangeSubject.value = true
                         }
                     ) {
-                        Text("Change subject")
+                        Text(viewModel.textChangeSubject)
                     }
                 }
             }
@@ -173,13 +173,13 @@ class CreateTruancyActivity : ComponentActivity() {
                         viewModel.stateShowDateDialog.value = true
                     }
                 ) {
-                    Text("Change date")
+                    Text(viewModel.textChangeDate)
                 }
             }
             TextField(
                 value = viewModel.stateTruancyReason.value,
                 placeholder = {
-                    Text("The reason of truancy")
+                    Text(viewModel.textReason)
                 },
                 onValueChange = {
                     viewModel.stateTruancyReason.value = it
@@ -198,7 +198,7 @@ class CreateTruancyActivity : ComponentActivity() {
                         createTruancy()
                     }
                 ) {
-                    Text("Create")
+                    Text(viewModel.textCreate)
                 }
             }
         }
@@ -324,7 +324,7 @@ class CreateTruancyActivity : ComponentActivity() {
                         viewModel.stateShowDateDialog.value =false
                     }
                 ) {
-                    Text("Done")
+                    Text(viewModel.textDone)
                 }
             }
         ) {

@@ -110,7 +110,7 @@ class TermInfoActivity : ComponentActivity() {
                         }
                 )
                 Text(
-                    text = "Term ${viewModel.term.number}",
+                    text = "${viewModel.textTerm} ${viewModel.term.number}",
                     fontSize = 20.sp,
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
@@ -153,7 +153,7 @@ class TermInfoActivity : ComponentActivity() {
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = "Urgent tasks",
+                        text = viewModel.textUrgentTasks,
                         textAlign = TextAlign.Center,
                         fontSize = 18.sp,
                         modifier = Modifier
@@ -186,7 +186,7 @@ class TermInfoActivity : ComponentActivity() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Subjects",
+                            text = viewModel.textSubjects,
                             textAlign = TextAlign.Center,
                             fontSize = 18.sp,
                             modifier = Modifier
@@ -226,6 +226,7 @@ class TermInfoActivity : ComponentActivity() {
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(bottom = 10.dp)
             ) {
                 Button(
                     onClick = {
@@ -233,7 +234,7 @@ class TermInfoActivity : ComponentActivity() {
                     },
                     enabled = viewModel.stateSubjects.value.isNotEmpty()
                 ) {
-                    Text("View truancies")
+                    Text(viewModel.textViewTruancies)
                 }
             }
 
@@ -356,14 +357,14 @@ class TermInfoActivity : ComponentActivity() {
                         deleteTerm()
                     }
                 ) {
-                    Text("Delete term")
+                    Text(viewModel.textDelete)
                 }
             },
             title = {
-                Text("Are you sure you want to delete the term?")
+                Text(viewModel.textDialogDeleteTitle)
             },
             text = {
-                Text("If you delete the term, you will also delete subjects, tasks and truancies list of this term.")
+                Text(viewModel.textDialogDeleteDesc)
             }
         )
     }

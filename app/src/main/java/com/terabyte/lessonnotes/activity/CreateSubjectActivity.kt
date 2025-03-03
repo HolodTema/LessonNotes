@@ -105,7 +105,7 @@ class CreateSubjectActivity : ComponentActivity() {
                         }
                 )
                 Text(
-                    text = "Create new subject",
+                    text = viewModel.textCreateNewSubject,
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center,
                     color = Color.Black,
@@ -121,7 +121,7 @@ class CreateSubjectActivity : ComponentActivity() {
                     viewModel.stateSubjectName.value = it
                 },
                 placeholder = {
-                    Text("Subject name")
+                    Text(viewModel.textSubjectName)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -133,7 +133,7 @@ class CreateSubjectActivity : ComponentActivity() {
                     .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             ) {
                 Text(
-                    text = "Subject color:",
+                    text = "${viewModel.textSubjectColor} ",
                     fontSize = 18.sp,
                     color = Color.Black
                 )
@@ -151,7 +151,7 @@ class CreateSubjectActivity : ComponentActivity() {
                         viewModel.stateShowDialogColor.value = true
                     }
                 ) {
-                    Text("Change oclor")
+                    Text(viewModel.textChangeColor)
                 }
             }
             Box(
@@ -166,7 +166,7 @@ class CreateSubjectActivity : ComponentActivity() {
                     },
                     enabled = viewModel.stateSubjectName.value.isNotEmpty()
                 ) {
-                    Text("Create")
+                    Text(viewModel.textCreate)
                 }
             }
         }
@@ -200,7 +200,7 @@ class CreateSubjectActivity : ComponentActivity() {
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = "Choose color of subject",
+                        text = viewModel.textChooseColor,
                         fontSize = 18.sp,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
@@ -251,7 +251,7 @@ class CreateSubjectActivity : ComponentActivity() {
                                 viewModel.stateShowDialogColor.value = false
                             },
                         ) {
-                            Text("Done")
+                            Text(viewModel.textDone)
                         }
                     }
                 }

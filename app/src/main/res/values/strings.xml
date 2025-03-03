@@ -8,4 +8,67 @@
     <string name="title_activity_create_task">CreateTaskActivity</string>
     <string name="title_activity_truancies">TruanciesActivity</string>
     <string name="title_activity_create_truancy">CreateTruancyActivity</string>
+
+    <string name="settings_app_version">0.0.1</string>
+    <string name="settings_contacts_email">art.holodilov@gmail.com</string>
+    <string name="settings_about_app">Welcome to Lesson Notes!
+This app is a task and truancies tracker. You can create a term with subjects. For every subject you can add tasks with importance level and truancy entry to truancies list.
+With this app you can understand how many lessons you have skipped. And you can effectively arrange the studying process.</string>
+
+    <string name="terms_amount_terms">Amount of terms:</string>
+    <string name="term">Term</string>
+
+    <string name="term_info_urgent_tasks">Urgent tasks</string>
+    <string name="term_info_subjects">Subjects</string>
+    <string name="term_info_view_truancies">View truancies</string>
+    <string name="term_info_dialog_delete_title">Are you sure you want to delete the term?</string>
+    <string name="term_info_dialog_delete_desc">If you delete the term, you will also delete subjects, tasks and truancies list of this term.</string>
+    <string name="term_info_delete">Delete</string>
+
+    <string name="create_term_create_new_term">Create new term</string>
+    <string name="create_term_term_number">Term number</string>
+    <string name="create_term_starts_at">Starts at:</string>
+    <string name="create_term_ends_at">Ends at:</string>
+    <string name="create_term_change">Change</string>
+    <string name="create_term_create">Create</string>
+    <string name="create_term_description">Term description</string>
+    <string name="create_term_done">Done</string>
+
+    <string name="create_subject_create_new_subject">Create new subject</string>
+    <string name="create_subject_subject_name">Subject name</string>
+    <string name="create_subject_subject_color">Subject color:</string>
+    <string name="create_subject_change_color">Change color</string>
+    <string name="create_subject_choose_color">Choose color of subject</string>
+    <string name="create_subject_done">Done</string>
+    <string name="create_subject_create">Create</string>
+
+    <string name="subject_info_complete">Complete</string>
+    <string name="subject_info_incomplete">Incomplete</string>
+    <string name="subject_info_dialog_delete_title">Are you sure you want to delete the subject?</string>
+    <string name="subject_info_dialog_delete_desc">If you delete the subject, you will delete all the tasks of this subject.</string>
+    <string name="subject_info_delete">Delete</string>
+    
+    <string name="create_task_create_new_task">Create new task</string>
+    <string name="create_task_name">Task name</string>
+    <string name="create_task_description">Task description</string>
+    <string name="create_task_change_date">Change date</string>
+    <string name="create_task_done">Done</string>
+    <string name="create_task_choose_importance">Choose importance:</string>
+    <string name="create_task_not_important">Not important</string>
+    <string name="create_task_little_important">Little important</string>
+    <string name="create_task_important">Important</string>
+    <string name="create_task_very_important">Very important</string>
+    <string name="create_task_asap">As soon as possible</string>
+    <string name="create_task_create">Create</string>
+        
+    <string name="truancies">truancies</string>
+    <string name="truancy">truancy</string>
+    <string name="truancies_reason">Reason:</string>
+
+    <string name="create_truancy_create_new_truancy">Create new truancy</string>
+    <string name="create_truancy_change_subject">Change subject</string>
+    <string name="create_truancy_change_date">Change date</string>
+    <string name="create_truancy_done">Done</string>
+    <string name="create_truancy_reason">Reason of truancy</string>
+    <string name="create_truancy_create">Create</string>
 </resources>

@@ -91,7 +91,7 @@ class TruanciesActivity : ComponentActivity() {
                         }
                 )
                 Text(
-                    "${viewModel.stateTruanciesPairs.value.size} truancies",
+                    "${viewModel.stateTruanciesPairs.value.size} ${if (viewModel.stateTruanciesPairs.value.size == 1) viewModel.textTruancy else viewModel.textTruancies}",
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center,
                     color = Color.Black,
@@ -168,7 +168,7 @@ class TruanciesActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Text("Reason: ")
+                Text("${viewModel.textReason} ")
                 Text(
                     truancy.reason,
                     textAlign = TextAlign.Center,

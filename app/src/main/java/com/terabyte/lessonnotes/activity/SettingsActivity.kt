@@ -26,9 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.terabyte.lessonnotes.R
-import com.terabyte.lessonnotes.config.ABOUT_APP
-import com.terabyte.lessonnotes.config.APP_VERSION
-import com.terabyte.lessonnotes.config.CONTACTS_EMAIL
 import com.terabyte.lessonnotes.viewmodel.SettingsViewModel
 
 class SettingsActivity : ComponentActivity() {
@@ -86,7 +83,7 @@ class SettingsActivity : ComponentActivity() {
                     .padding(top = 10.dp, start = 10.dp, end = 10.dp)
             ) {
                 Text(
-                    "App version: $APP_VERSION",
+                    "App version: ${viewModel.textAppVersion}",
                     fontSize = 18.sp,
                     color = Color.Black
                 )
@@ -99,7 +96,7 @@ class SettingsActivity : ComponentActivity() {
                     .padding(start = 10.dp, top = 20.dp)
             )
             Text(
-                text = ABOUT_APP,
+                text = viewModel.textAboutApp,
                 color = Color.Black,
                 fontSize = 16.sp,
                 modifier = Modifier
@@ -113,7 +110,7 @@ class SettingsActivity : ComponentActivity() {
                     .padding(top = 20.dp, start = 10.dp)
             )
             Text(
-                CONTACTS_EMAIL,
+                viewModel.textContactsEmail,
                 fontSize = 16.sp,
                 color = Color.Black,
                 modifier = Modifier
