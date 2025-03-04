@@ -36,15 +36,21 @@ class RoomManager(context: Context) {
         }
     }
 
-    fun deleteTermWithChildren(term: Term) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val subjects = database.subjectDao().getSubjectsByTermId(term.id)
-            val tasks = database.taskDao().getTasksByTermId(term.id)
-            val truancies = database.truancyDao().getTruanciesByTermId(term.id)
+    fun deleteTermWithChildren(term: Term, listener: () -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val deferred = async(Dispatchers.IO) {
+                val subjects = database.subjectDao().getSubjectsByTermId(term.id)
+                val tasks = database.taskDao().getTasksByTermId(term.id)
+                val truancies = database.truancyDao().getTruanciesByTermId(term.id)
 
-            database.taskDao().deleteTaskList(tasks)
-            database.subjectDao().deleteSubjectList(subjects)
-            database.truancyDao().deleteTruancyList(truancies)
+                database.taskDao().deleteTaskList(tasks)
+                database.subjectDao().deleteSubjectList(subjects)
+                database.truancyDao().deleteTruancyList(truancies)
+                database.termDao().deleteTerm(term)
+                return@async
+            }
+            deferred.await()
+            listener()
         }
     }
 

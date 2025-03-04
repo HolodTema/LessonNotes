@@ -5,3 +5,4 @@ const val ROOM_DB_VERSION = 1
 
 const val INTENT_KEY_TERM = "intentKeyTerm"
 const val INTENT_KEY_SUBJECT = "intentKeySubject"
+const val INTENT_KEY_UPDATE_REQUIRED = "intentKeyUpdateRequired"

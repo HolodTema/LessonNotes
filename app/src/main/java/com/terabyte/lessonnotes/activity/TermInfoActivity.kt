@@ -48,6 +48,7 @@ import com.terabyte.lessonnotes.R
 import com.terabyte.lessonnotes.application.MyApplication
 import com.terabyte.lessonnotes.config.INTENT_KEY_SUBJECT
 import com.terabyte.lessonnotes.config.INTENT_KEY_TERM
+import com.terabyte.lessonnotes.config.INTENT_KEY_UPDATE_REQUIRED
 import com.terabyte.lessonnotes.room.entity.Subject
 import com.terabyte.lessonnotes.room.entity.Task
 import com.terabyte.lessonnotes.room.entity.Term
@@ -370,12 +371,16 @@ class TermInfoActivity : ComponentActivity() {
     }
 
     private fun backToTermsActivity() {
-        startActivity(Intent(this, TermsActivity::class.java))
+        val intent = Intent(this, TermsActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            .putExtra(INTENT_KEY_UPDATE_REQUIRED, true)
+        startActivity(intent)
     }
 
     private fun deleteTerm() {
-        (application as MyApplication).roomManager.deleteTermWithChildren(viewModel.term)
-        backToTermsActivity()
+        (application as MyApplication).roomManager.deleteTermWithChildren(viewModel.term) {
+            backToTermsActivity()
+        }
     }
 
     private fun startCreateSubjectActivity() {
