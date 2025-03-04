@@ -36,7 +36,10 @@ class TermInfoViewModel(private val application: Application): AndroidViewModel(
         application.roomManager.getTasksByTermId(term.id) { tasks ->
             val comparator = Comparator { task1: Task, task2: Task -> task2.importance - task1.importance }
 
-            val urgentTasks = tasks.sortedWith(comparator).subList(0, min(5, tasks.size))
+            val incompleteTasks = tasks.filter { task->
+                !task.completed
+            }
+            val urgentTasks = incompleteTasks.sortedWith(comparator).subList(0, min(5, incompleteTasks.size))
 
             application.roomManager.getSubjectsForTasks(urgentTasks) { urgentTasksPairs ->
                 stateUrgentTasks.value = urgentTasksPairs
