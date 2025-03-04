@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +38,7 @@ import com.terabyte.lessonnotes.config.INTENT_KEY_TERM
 import com.terabyte.lessonnotes.room.entity.Subject
 import com.terabyte.lessonnotes.room.entity.Term
 import com.terabyte.lessonnotes.room.entity.Truancy
+import com.terabyte.lessonnotes.ui.theme.LessonNotesTheme
 import com.terabyte.lessonnotes.util.ColorHelper
 import com.terabyte.lessonnotes.viewmodel.TruanciesViewModel
 
@@ -57,12 +61,14 @@ class TruanciesActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            Scaffold(
-                floatingActionButton = {
-                    FloatingActionButtonCreateTruancy()
+            LessonNotesTheme {
+                Scaffold(
+                    floatingActionButton = {
+                        FloatingActionButtonCreateTruancy()
+                    }
+                ) { paddingVals ->
+                    Main(viewModel, paddingVals)
                 }
-            ) { paddingVals ->
-                Main(viewModel, paddingVals)
             }
         }
     }
@@ -79,9 +85,11 @@ class TruanciesActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)
+                    .background(colorScheme.primary)
             ) {
                 Icon(
                     painterResource(R.drawable.ic_back),
+                    tint = colorScheme.onPrimary,
                     contentDescription = "",
                     modifier = Modifier
                         .width(40.dp)
@@ -92,8 +100,8 @@ class TruanciesActivity : ComponentActivity() {
                 )
                 Text(
                     "${viewModel.stateTruanciesPairs.value.size} ${if (viewModel.stateTruanciesPairs.value.size == 1) viewModel.textTruancy else viewModel.textTruancies}",
-                    fontSize = 18.sp,
                     textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
                     color = Color.Black,
                     modifier = Modifier
                         .padding(start = 10.dp)
