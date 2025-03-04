@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,15 +22,21 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +55,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.terabyte.lessonnotes.R
 import com.terabyte.lessonnotes.application.MyApplication
 import com.terabyte.lessonnotes.room.entity.Term
+import com.terabyte.lessonnotes.ui.theme.LessonNotesTheme
 import com.terabyte.lessonnotes.util.DateHelper
 import com.terabyte.lessonnotes.viewmodel.CreateTermViewModel
 
@@ -60,8 +68,10 @@ class CreateTermActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            Scaffold { paddingVals ->
-                Main(viewModel, paddingVals)
+            LessonNotesTheme {
+                Scaffold { paddingVals ->
+                    Main(viewModel, paddingVals)
+                }
             }
         }
     }
@@ -71,36 +81,46 @@ class CreateTermActivity : ComponentActivity() {
         val regexTermNumber = Regex("[0123456789]*")
         val maxLenNumber = 5
 
+        val scrollState = rememberScrollState()
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(paddingVals)
-
+                .verticalScroll(scrollState)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
+                    .clip(RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp))
+                    .background(colorScheme.primary)
+                    .padding(vertical = 15.dp, horizontal = 10.dp)
             ) {
                 Icon(
                     painterResource(R.drawable.ic_back),
                     contentDescription = "",
+                    tint = colorScheme.onPrimary,
                     modifier = Modifier
-                        .width(35.dp)
-                        .height(35.dp)
-                        .clickable {
+                        .width(30.dp)
+                        .height(30.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
                             startTermsActivity()
                         }
                 )
                 Text(
                     viewModel.textCreateNewTerm,
                     textAlign = TextAlign.Center,
-                    fontSize = 20.sp,
+                    style = typography.titleMedium,
+                    color = colorScheme.onPrimary,
                     modifier = Modifier
                         .weight(1f)
                 )
             }
+
             TextField(
                 value = viewModel.stateTermNumber.value,
                 label = {
@@ -112,9 +132,17 @@ class CreateTermActivity : ComponentActivity() {
                         viewModel.stateTermNumber.value = it
                     }
                 },
+                colors = TextFieldDefaults.colors(
+                    focusedLabelColor = colorScheme.secondary,
+                    unfocusedLabelColor = colorScheme.secondary,
+                    focusedContainerColor = colorScheme.surface,
+                    unfocusedContainerColor = colorScheme.surface,
+                    focusedTextColor = colorScheme.secondary,
+                    unfocusedTextColor = colorScheme.secondary,
+                ),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .padding(10.dp)
                     .fillMaxWidth()
             )
             Row(
@@ -124,6 +152,8 @@ class CreateTermActivity : ComponentActivity() {
             ) {
                 Text(
                     text = "${viewModel.textStartsAt} ${DateHelper.monthIndexToMonthString(viewModel.stateStartMonthIndex.value)} ${viewModel.stateStartYear.value}",
+                    style = typography.bodyMedium,
+                    color = colorScheme.secondary,
                     modifier = Modifier
                         .width(180.dp)
                         .padding(end = 10.dp)
@@ -163,16 +193,24 @@ class CreateTermActivity : ComponentActivity() {
                 onValueChange = {
                     viewModel.stateTermDescription.value = it
                 },
+                colors = TextFieldDefaults.colors(
+                    focusedLabelColor = colorScheme.secondary,
+                    unfocusedLabelColor = colorScheme.secondary,
+                    focusedContainerColor = colorScheme.surface,
+                    unfocusedContainerColor = colorScheme.surface,
+                    focusedTextColor = colorScheme.secondary,
+                    unfocusedTextColor = colorScheme.secondary,
+                ),
                 maxLines = 4,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .padding(start = 10.dp, end = 10.dp)
             )
             Box(
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.CenterEnd,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp)
+                    .padding(10.dp)
             ) {
                 Button(
                     enabled = (viewModel.stateTermNumber.value.isNotEmpty()),
